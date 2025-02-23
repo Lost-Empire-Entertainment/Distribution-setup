@@ -270,7 +270,16 @@ echo Deleted unnecessary hub release folder files and folders
 
 echo.
 echo ==================================================
-echo SUCCESS: INSTALLER COMPLETED
+echo COMPRESSING INTO ZIP FILE
+echo ==================================================
+echo.
+
+cd "%root%"
+7z a -t7z -mx=9 -mmt=on "%target%\Elypso-engine-x64-release-windows.7z" "%target%"
+
+echo.
+echo ==================================================
+echo SUCCESS: INSTALLATION COMPLETED
 echo ==================================================
 echo.
 
