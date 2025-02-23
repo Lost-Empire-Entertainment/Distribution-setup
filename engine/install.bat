@@ -7,7 +7,8 @@ echo ==================================================
 echo.
 
 set "rootDir=%~dp0"
-set "target=%rootDir%\target"
+set "target=%rootDir%\release"
+set "output=%rootDir%\Elypso-engine-x64-release-windows.7z"
 
 set "engineRootFolder=%rootDir%\..\..\Elypso-engine"
 set "hubRootFolder=%rootDir%\..\..\Elypso-hub"
@@ -102,13 +103,17 @@ echo.
 cd "%rootDir%"
 
 :: Create new empty target folder
-if exist target (
-	rmdir /S /Q target
+if exist "%target%" (
+	rmdir /S /Q "%target%"
 )
-mkdir target
+mkdir "%target%"
 echo Created new folder 'target'
 
-cd target
+if exist "%output%" (
+	del /F /Q "%output%"
+)
+
+cd "%target%"
 
 :: Copy engine release folder
 mkdir Engine
@@ -274,8 +279,12 @@ echo COMPRESSING INTO ZIP FILE
 echo ==================================================
 echo.
 
-cd "%root%"
-7z a -t7z -mx=9 -mmt=on "%target%\Elypso-engine-x64-release-windows.7z" "%target%"
+cd "%target%"
+7z a -t7z -mx=9 -mmt=on "Elypso-engine-x64-release-windows.7z" "%target%"
+
+cd ..
+copy "%target%\Elypso-engine-x64-release-windows.7z" ".\" >nul 2>&1
+rmdir /S /Q "%target%"
 
 echo.
 echo ==================================================

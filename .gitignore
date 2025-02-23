@@ -1,1 +1,3 @@
-engine/target
+# Ignore generated files and folders
+engine/release
+engine/Elypso-engine-x64-release-windows.7z
