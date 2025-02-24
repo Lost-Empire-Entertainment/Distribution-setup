@@ -1,296 +1,341 @@
 @echo off
 
-echo.
-echo ==================================================
-echo INITIALIZING ENGINE INSTALLER
-echo ==================================================
+echo Initializing Elypso Engine Installer...
 echo.
 
-set "rootDir=%~dp0"
-set "target=%rootDir%\release"
-set "output=%rootDir%\Elypso-engine-x64-release-windows.7z"
+if NOT "%~1"=="" if NOT "%~1"=="skipwait" (
+    echo [ERROR] Invalid first parameter! Leave empty or use 'skipwait'.
+    pause
+    exit /b 1
+)
 
-set "engineRootFolder=%rootDir%\..\..\Elypso-engine"
-set "hubRootFolder=%rootDir%\..\..\Elypso-hub"
+:: Root paths
+set "origin=%~dp0"
+set "input=Elypso-engine-x64-release-windows"
+set "output=Elypso-engine-x64-release-windows.7z"
 
-set "engineReleaseFolder=%engineRootFolder%\Engine\out\build\x64-release"
-set "engineLibReleaseFolder=%engineRootFolder%\Engine library\out\build\x64-release"
-set "gameSourceFolder=%engineRootFolder%\Game"
+:: Assigned paths
+set "engine=%origin%\..\..\Elypso-engine\Engine"
+set "engine_lib=%engine%\..\Engine library\out\build\x64-release\Elypso engine.lib"
+set "external_shared=%engine%\..\_external_shared"
+set "include=%engine%\include"
+set "release_engine=%engine%\out\build\x64-release"
+set "release_hub=%origin%\..\..\Elypso-hub\out\build\x64-release"
+set "source_game=%origin%\..\..\Elypso-engine\Game"
 
-set "hubReleaseFolder=%hubRootFolder%\out\build\x64-release"
+:: Individual files
+set "win_prerequisites_txt=%engine%\..\Windows_prerequisites.txt"
+set "win_prerequisites_7z=%engine%\..\Windows_prerequisites.7z"
+set "readme=%engine%\..\README.md"
+set "license=%engine%\..\LICENSE.md"
+set "libraries=%engine%\..\LIBRARIES.md"
+set "security=%engine%\..\SECURITY.md"
+set "changes=%engine%\..\CHANGES.txt"
 
-set "externalShared=%engineRootFolder%\_external_shared"
+:: Resolve paths before checking if they are valid
+for /f "delims=" %%i in ("%engine%") do set "engine=%%~fi"
+for /f "delims=" %%i in ("%engine_lib%") do set "engine_lib=%%~fi"
+for /f "delims=" %%i in ("%external_shared%") do set "external_shared=%%~fi"
+for /f "delims=" %%i in ("%include%") do set "include=%%~fi"
+for /f "delims=" %%i in ("%release_engine%") do set "release_engine=%%~fi"
+for /f "delims=" %%i in ("%release_hub%") do set "release_hub=%%~fi"
+for /f "delims=" %%i in ("%source_game%") do set "source_game=%%~fi"
 
-set "engineLibPath=%engineRootFolder%\Engine\Elypso engine.lib"
+for /f "delims=" %%i in ("%win_prerequisites_txt%") do set "win_prerequisites_txt=%%~fi"
+for /f "delims=" %%i in ("%win_prerequisites_7z%") do set "win_prerequisites_7z=%%~fi"
+for /f "delims=" %%i in ("%readme%") do set "readme=%%~fi"
+for /f "delims=" %%i in ("%license%") do set "license=%%~fi"
+for /f "delims=" %%i in ("%libraries%") do set "libraries=%%~fi"
+for /f "delims=" %%i in ("%security%") do set "security=%%~fi"
+for /f "delims=" %%i in ("%changes%") do set "changes=%%~fi"
 
-set "include=%engineRootFolder%\Engine\include"
-
-if not exist "%engineRootFolder%" (
-	echo Error: Engine root folder does not exist!
+:: Check if assigned paths are valid
+if not exist "%engine%" (
+	echo Error: Engine folder path '%engine%' is not a valid path!
 	pause
 	exit /b 1
 ) else (
-	echo Found Engine root folder!
+	echo Success: Found engine path!
 )
-if not exist "%hubRootFolder%" (
-	echo Error: Hub root folder does not exist!
+if not exist "%engine_lib%" (
+	echo Error: Engine library path '%engine_lib%' is not a valid path!
 	pause
 	exit /b 1
 ) else (
-	echo Found Hub root folder!
+	echo Success: Found engine library path!
 )
-
-if not exist "%engineReleaseFolder%" (
-	echo Error: Engine release folder does not exist!
+if not exist "%external_shared%" (
+	echo Error: External shared folder path '%external_shared%' is not a valid path!
 	pause
 	exit /b 1
 ) else (
-	echo Found Engine release folder!
+	echo Success: Found external shared path!
 )
-if not exist "%engineLibReleaseFolder%" (
-	echo Error: Engine library release folder does not exist!
-	pause
-	exit /b 1
-) else (
-	echo Found Engine library release folder!
-)
-if not exist "%gameSourceFolder%" (
-	echo Error: Game source folder does not exist!
-	pause
-	exit /b 1
-) else (
-	echo Found Game source folder!
-)
-
-if not exist "%hubReleaseFolder%" (
-	echo Error: Hub release folder does not exist!
-	pause
-	exit /b 1
-) else (
-	echo Found Hub release folder!
-)
-
-if not exist "%externalShared%" (
-	echo Error: External shared folder does not exist!
-	pause
-	exit /b 1
-) else (
-	echo Found External shared folder!
-)
-
-if not exist "%engineLibPath%" (
-	echo Error: Engine library file path does not exist!
-	pause
-	exit /b 1
-) else (
-	echo Found Engine library file path!
-)
-
 if not exist "%include%" (
-	echo Error: Engine include folder does not exist!
+	echo Error: Include folder path '%include%' is not a valid path!
 	pause
 	exit /b 1
 ) else (
-	echo Found Engine include folder!
+	echo Success: Found include path!
+)
+if not exist "%release_engine%" (
+	echo Error: Engine release folder path '%release_engine%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found engine release path!
+)
+if not exist "%release_hub%" (
+	echo Error: Hub release folder path '%release_hub%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found hub release path!
+)
+if not exist "%source_game%" (
+	echo Error: Game source folder path '%source_game%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found game source path!
+)
+
+if not exist "%win_prerequisites_txt%" (
+	echo Error: Windows prerequisites txt path '%win_prerequisites_txt%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found windows prerequisites txt file!
+)
+if not exist "%win_prerequisites_7z%" (
+	echo Error: Windows prerequisites 7z path '%win_prerequisites_7z%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found windows prerequisites 7z file!
+)
+if not exist "%readme%" (
+	echo Error: Readme path '%readme%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found readme file!
+)
+if not exist "%license%" (
+	echo Error: License path '%license%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found license file!
+)
+if not exist "%libraries%" (
+	echo Error: Libraries path '%libraries%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found libraries file!
+)
+if not exist "%security%" (
+	echo Error: Security path '%security%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found security file!
+)
+if not exist "%changes%" (
+	echo Error: Changes file path '%changes%' is not a valid path!
+	pause
+	exit /b 1
+) else (
+	echo Success: Found changes file!
 )
 
 echo.
-echo ==================================================
-echo ENGINE INSTALLER INITIALIZATION COMPLETED
-echo ==================================================
+echo ====================================================
+echo Initialize succeeded!
+echo ====================================================
 echo.
 
-cd "%rootDir%"
-
-:: Create new empty target folder
-if exist "%target%" (
-	rmdir /S /Q "%target%"
-)
-mkdir "%target%"
-echo Created new folder 'target'
+cd /d "%origin%"
 
 if exist "%output%" (
-	del /F /Q "%output%"
+	del /f /q "%output%"
+	echo Deleted old 7z package.
+	echo.
 )
 
-cd "%target%"
-
-:: Copy engine release folder
-mkdir Engine
-cd Engine
-xcopy "%engineReleaseFolder%\*" ".\" /E /H /Y >nul 2>&1
-cd ..
-echo Copied 'Engine' release folder to 'Engine'
-
-:: Copy game source folder
-mkdir Game
-cd Game
-xcopy "%gameSourceFolder%\*" ".\" /E /H /Y >nul 2>&1
-cd..
-echo Copied 'Game' source folder to 'Game'
-
-:: Copy hub source folder
-mkdir Hub
-cd Hub
-xcopy "%hubReleaseFolder%\*" ".\" /E /H /Y >nul 2>&1
-cd ..
-echo Copied 'Hub' release folder to 'Hub'
-
-:: Copy external shared folder
-mkdir _external_shared
-cd _external_shared
-xcopy "%externalShared%\*" ".\" /E /H /Y >nul 2>&1
-cd ..
-echo Copied '_external_shared' root folder to '_external_shared'
-
-:: Copy elypso library file
-cd Game
-copy "%engineLibPath%" ".\" >nul 2>&1
-cd ..
-echo Copied 'Elypso engine.lib' file to 'Game'
-
-:: Copy elypso include folder
-cd Engine
-mkdir include
-cd include
-xcopy "%include%\*" ".\" /E /H /Y >nul 2>&1
-cd ..\..
-echo Copied 'include' folder to 'Engine'
-
-:: Set new paths for engine root files
-set "changes=%engineRootFolder%\CHANGES.txt"
-set "libraries=%engineRootFolder%\LIBRARIES.md"
-set "license=%engineRootFolder%\LICENSE.md"
-set "readme=%engineRootFolder%\README.md"
-set "security=%engineRootFolder%\SECURITY.md"
-set "win7z=%engineRootFolder%\Windows_prerequisites.7z"
-set "wintxt=%engineRootFolder%\Windows_prerequisites.txt"
-
-:: Copy over engine root files
-if exist "%changes%" (
-	copy "%changes%" ".\" >nul 2>&1
+:: Delete old target and create new one
+if exist "target" (
+	rd /s /q "target"
+	echo Removed folder 'target'.
 )
-if exist "%libraries%" (
-	copy "%libraries%" ".\" >nul 2>&1
-)
-if exist "%license%" (
-	copy "%license%" ".\" >nul 2>&1
-)
-if exist "%readme%" (
-	copy "%readme%" ".\" >nul 2>&1
-)
-if exist "%security%" (
-	copy "%security%" ".\" >nul 2>&1
-)
-if exist "%win7z%" (
-	copy "%win7z%" ".\" >nul 2>&1
-)
-if exist "%wintxt%" (
-	copy "%wintxt%" ".\" >nul 2>&1
-)
-
-echo Copied over engine root individual files
-
-:: Set new paths for unnecessary engine release folder files and folders
-set "engineReleaseTarget=%target%\Engine"
-set "engineCMakeFolder=%engineReleaseTarget%\CMakeFiles"
-set "engineNinjaDeps=%engineReleaseFolder%\.ninja_deps"
-set "engineNinjaLog=%engineReleaseFolder%\.ninja_log"
-set "engineBuildNinja=%engineReleaseFolder%\build.ninja"
-set "engineCMakeInstall=%engineReleaseFolder%\cmake_install.cmake"
-set "engineCMakeCache=%engineReleaseFolder%\CMakeCache.txt"
-set "engineCPackConfig=%engineReleaseFolder%\CPackConfig.cmake"
-set "engineCPackSourceConfig=%engineReleaseFolder%\CPackSourceConfig.cmake"
-
-:: Remove unnecesary engine release folder files and folders
-cd Engine
-if exist "%engineCMakeFolder%" (
-	rmdir /S /Q "%engineCMakeFolder%"
-)
-if exist "%engineNinjaDeps%" (
-	del /F /Q "%engineNinjaDeps%"
-)
-if exist "%engineNinjaLog%" (
-	del /F /Q "%engineNinjaLog%"
-)
-if exist "%engineBuildNinja%" (
-	del /F /Q "%engineBuildNinja%"
-)
-if exist "%engineCMakeInstall%" (
-	del /F /Q "%engineCMakeInstall%"
-)
-if exist "%engineCMakeCache%" (
-	del /F /Q "%engineCMakeCache%"
-)
-if exist "%engineCPackConfig%" (
-	del /F /Q "%engineCPackConfig%"
-)
-if exist "%engineCPackSourceConfig%" (
-	del /F /Q "%engineCPackSourceConfig%"
-)
-cd ..
-
-echo Deleted unnecessary engine release folder files and folders
-
-:: Set new paths for unnecessary hub release folder files and folders
-set "hubReleaseTarget=%target%\Hub"
-set "hubCMakeFolder=%hubReleaseTarget%\CMakeFiles"
-set "hubNinjaDeps=%hubReleaseTarget%\.ninja_deps"
-set "hubNinjaLog=%hubReleaseTarget%\.ninja_log"
-set "hubBuildNinja=%hubReleaseTarget%\build.ninja"
-set "hubCMakeInstall=%hubReleaseTarget%\cmake_install.cmake"
-set "hubCMakeCache=%hubReleaseTarget%\CMakeCache.txt"
-set "hubCPackConfig=%hubReleaseTarget%\CPackConfig.cmake"
-set "hubCPackSourceConfig=%hubReleaseTarget%\CPackSourceConfig.cmake"
-
-:: Remove unnecesary hub release folder files and folders
-cd Engine
-if exist "%hubCMakeFolder%" (
-	rmdir /S /Q "%hubCMakeFolder%"
-)
-if exist "%hubNinjaDeps%" (
-	del /F /Q "%hubNinjaDeps%"
-)
-if exist "%hubNinjaLog%" (
-	del /F /Q "%hubNinjaLog%"
-)
-if exist "%hubBuildNinja%" (
-	del /F /Q "%hubBuildNinja%"
-)
-if exist "%hubCMakeInstall%" (
-	del /F /Q "%hubCMakeInstall%"
-)
-if exist "%hubCMakeCache%" (
-	del /F /Q "%hubCMakeCache%"
-)
-if exist "%hubCPackConfig%" (
-	del /F /Q "%hubCPackConfig%"
-)
-if exist "%hubCPackSourceConfig%" (
-	del /F /Q "%hubCPackSourceConfig%"
-)
-cd ..
-
-echo Deleted unnecessary hub release folder files and folders
+mkdir "target"
 
 echo.
-echo ==================================================
-echo COMPRESSING INTO ZIP FILE
-echo ==================================================
+
+cd /d "target"
+
+:: Paste Windows_prerequisites.7z and .txt into target
+copy "%win_prerequisites_7z%" ".\" /Y >nul
+echo Copied windows prerequisites 7z to 'target'.
+copy "%win_prerequisites_txt%" ".\" /Y >nul
+echo Copied windows prerequisites txt to 'target'.
+
+:: Paste readme, license, libraries and security into target
+copy "%readme%" ".\" /Y >nul
+echo Copied readme to 'target'.
+copy "%license%" ".\" /Y >nul
+echo Copied license to 'target'.
+copy "%libraries%" ".\" /Y >nul
+echo Copied libraries to 'target'.
+copy "%security%" ".\" /Y >nul
+echo Copied security to 'target'.
+
+:: Paste changes file into target
+copy "%changes%" ".\" /Y >nul
+echo Copied changes file to 'target'.
+
+echo. 
+
+:: Create _external_shared and paste content into it
+mkdir "_external_shared"
+cd /d "_external_shared"
+xcopy "%external_shared%" ".\" /E /I /Y >nul
+echo Copied external shared libraries to '_external_shared'.
+
 echo.
 
-cd "%target%"
-7z a -t7z -mx=9 -mmt=on "Elypso-engine-x64-release-windows.7z" "%target%"
+cd /d ..\
 
-cd ..
-copy "%target%\Elypso-engine-x64-release-windows.7z" ".\" >nul 2>&1
-rmdir /S /Q "%target%"
+:: Create Engine folder and paste content into it
+mkdir "Engine"
+cd /d "Engine"
+xcopy "%release_engine%" ".\" /E /I /Y >nul
+echo Copied engine release files to 'Engine'.
+
+:: Paste engine library into Engine folder
+copy "%engine_lib%" ".\" /Y >nul
+echo Copied engine library to 'Engine'.
+
+:: Create include folder and paste content into it
+mkdir "include"
+cd /d "include"
+xcopy "%include%" ".\" /E /I /Y >nul
+echo Copied include files to 'include'.
+
+cd /d ..\
+
+:: Delete useless files from Engine folder
+if exist "CMakeFiles" (
+	rmdir /s /q "CMakeFiles"
+)
+if exist ".ninja_deps" (
+	del /f /q ".ninja_deps"
+)
+if exist ".ninja_log" (
+	del /f /q ".ninja_log"
+)
+if exist "build.ninja" (
+	del /f /q "build.ninja"
+)
+if exist "cmake_install.cmake" (
+	del /f /q "cmake_install.cmake"
+)
+if exist "CMakeCache.txt" (
+	del /f /q "CMakeCache.txt"
+)
+if exist "CPackConfig.cmake" (
+	del /f /q "CPackConfig.cmake"
+)
+if exist "CPackSourceConfig.cmake" (
+	del /f /q "CPackSourceConfig.cmake"
+)
+echo Cleaned up 'Engine'.
 
 echo.
-echo ==================================================
-echo SUCCESS: INSTALLATION COMPLETED
-echo ==================================================
+
+cd /d ..\
+
+:: Create Hub folder and paste content into it
+mkdir "Hub"
+cd /d "Hub"
+xcopy "%release_hub%" ".\" /E /I /Y >nul
+echo Copied hub release files to 'Hub'.
+
+:: Delete useless files from Hub folder
+if exist "CMakeFiles" (
+	rmdir /s /q "CMakeFiles"
+)
+if exist ".ninja_deps" (
+	del /f /q ".ninja_deps"
+)
+if exist ".ninja_log" (
+	del /f /q ".ninja_log"
+)
+if exist "build.ninja" (
+	del /f /q "build.ninja"
+)
+if exist "cmake_install.cmake" (
+	del /f /q "cmake_install.cmake"
+)
+if exist "CMakeCache.txt" (
+	del /f /q "CMakeCache.txt"
+)
+if exist "CPackConfig.cmake" (
+	del /f /q "CPackConfig.cmake"
+)
+if exist "CPackSourceConfig.cmake" (
+	del /f /q "CPackSourceConfig.cmake"
+)
+echo Cleaned up 'Hub'.
+
 echo.
 
-pause
+cd /d ..\
+
+:: Create Game folder and paste content into it
+mkdir "Game"
+cd /d "Game"
+xcopy "%source_game%" ".\" /E /I /Y >nul
+echo Copied game source files to 'Game'.
+
+:: Delete useless files from Game folder
+if exist "out" (
+	rmdir /s /q "out"
+)
+if exist "Elypso engine.lib" (
+	del /f /q "Elypso engine.lib"
+)
+if exist "Elypso engineD.lib" (
+	del /f /q "Elypso engineD.lib"
+)
+echo Cleaned up 'Game'.
+
+echo.
+
+cd /d ..\..\
+
+:: Rename target to Elypso-engine-x64-release-windows
+ren "target" "%input%"
+echo Renamed 'target' to '%input%'.
+ 
+echo.
+echo ====================================================
+echo Setup succeeded!
+echo ====================================================
+echo.
+
+echo Starting to compress '%input%'.
+echo.
+"7z.exe" a -t7z "%output%" "%input%" -mx9
+
+rmdir /s /q "%input%"
+
+echo.
+echo ====================================================
+echo Folder successfully compressed to 7z file!
+echo ====================================================
+echo.
+
+if not "%~1"=="skipwait" pause
 exit /b 0
