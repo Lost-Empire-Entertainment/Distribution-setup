@@ -103,6 +103,7 @@ echo
 # Copy external shared libraries
 mkdir "_external_shared"
 cp -rf "$EXTERNAL_SHARED"/. "_external_shared/"
+rm -rf "_external_shared/Copy-dll-files.exe"
 echo "Copied external shared libraries to '_external_shared'."
 
 echo

@@ -201,6 +201,9 @@ echo.
 mkdir "_external_shared"
 cd /d "_external_shared"
 xcopy "%external_shared%" ".\" /E /I /Y >nul
+if exist "Copy-dll-files.exe" (
+	del /f /q "Copy-dll-files.exe"
+)
 echo Copied external shared libraries to '_external_shared'.
 
 echo.
