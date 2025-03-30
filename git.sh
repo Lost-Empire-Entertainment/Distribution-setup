@@ -253,6 +253,10 @@ else
     read -p "Enter owner name (username or organization): " github_owner
 fi
 
+echo ""
+echo "=============================="
+echo ""
+
 #
 # SET REPOSITORY
 #
