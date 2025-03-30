@@ -384,7 +384,7 @@ echo ""
 
 echo "Pulling latest changes from remote..."
 previous_commit=$(git rev-parse HEAD)
-git pull --rebase origin "$branch_name"
+git pull --rebase origin "$branch_name" 2>&1
 new_commit=$(git rev-parse HEAD)
 if [[ "$previous_commit" == "$new_commit" ]]; then
     echo "Already up to date."
