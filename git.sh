@@ -264,27 +264,6 @@ echo "Using remote '$new_url' and branch '$branch_name'."
 echo ""
 
 #
-# PULL LATEST CHANGES BEFORE PUSHING
-#
-
-echo "Pulling latest changes from remote..."
-previous_commit=$(git rev-parse HEAD)
-git pull --rebase origin "$branch_name"
-new_commit=$(git rev-parse HEAD)
-if [[ "$previous_commit" == "$new_commit" ]]; then
-    echo "Already up to date."
-else
-    echo "Pulled new changes from remote."
-    echo ""
-    echo "Recent commits pulled:"
-    git log --oneline "$previous_commit..$new_commit"
-fi
-
-echo ""
-echo "=============================="
-echo ""
-
-#
 # CHECK FOR UNSTAGED FILES
 #
 
@@ -393,6 +372,27 @@ else
     echo "User chose not to commit changes."
     read -p "Press enter to exit..."
     exit 0
+fi
+
+echo ""
+echo "=============================="
+echo ""
+
+#
+# PULL LATEST CHANGES BEFORE PUSHING
+#
+
+echo "Pulling latest changes from remote..."
+previous_commit=$(git rev-parse HEAD)
+git pull --rebase origin "$branch_name"
+new_commit=$(git rev-parse HEAD)
+if [[ "$previous_commit" == "$new_commit" ]]; then
+    echo "Already up to date."
+else
+    echo "Pulled new changes from remote."
+    echo ""
+    echo "Recent commits pulled:"
+    git log --oneline "$previous_commit..$new_commit"
 fi
 
 echo ""
