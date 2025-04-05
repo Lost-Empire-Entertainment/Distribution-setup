@@ -6,12 +6,10 @@ echo.
 set "origin=%~dp0"
 set "engine=%origin%\engine\install.bat"
 set "hub=%origin%\hub\install.bat"
-set "compiler=%origin%\compiler\install.bat"
 
 :: Resolve paths before checking if they are valid
 for /f "delims=" %%i in ("%engine%") do set "engine=%%~fi"
 for /f "delims=" %%i in ("%hub%") do set "hub=%%~fi"
-for /f "delims=" %%i in ("%compiler%") do set "compiler=%%~fi"
 
 :: Check if assigned paths are valid
 if not exist "%engine%" (
@@ -27,13 +25,6 @@ if not exist "%hub%" (
 	exit /b 1
 ) else (
 	echo Success: Found hub installer!
-)
-if not exist "%compiler%" (
-	echo Error: Compiler installer path '%compiler%' is not a valid path!
-	pause
-	exit /b 1
-) else (
-	echo Success: Found compiler installer!
 )
 
 echo.
@@ -54,14 +45,6 @@ if %errorlevel% neq 0 (
 call "%hub%" skipwait
 if %errorlevel% neq 0 (
     echo Error: Hub installation failed!
-	pause
-    exit /b %errorlevel%
-)
-
-:: Install compiler
-call "%compiler%" skipwait
-if %errorlevel% neq 0 (
-    echo Error: Compiler installation failed!
 	pause
     exit /b %errorlevel%
 )
