@@ -16,21 +16,21 @@ INPUT="Elypso-engine-x64-release-linux"
 OUTPUT="Elypso-engine-x64-release-linux.tar.gz"
 
 # Assigned paths
-ENGINE="$ORIGIN/../../Elypso-engine/Engine"
-ENGINE_LIB="$ORIGIN/../../Elypso-engine/Engine library/out/build/x64-release/libElypso engine.a"
-EXTERNAL_SHARED="$ORIGIN/../../Elypso-engine/_external_shared"
-INCLUDE="$ORIGIN/../../Elypso-engine/Engine/include"
-RELEASE_ENGINE="$ORIGIN/../../Elypso-engine/Engine/out/build/x64-release"
-RELEASE_HUB="$ORIGIN/../../Elypso-hub/out/build/x64-release"
-SOURCE_GAME="$ORIGIN/../../Elypso-engine/Game"
+ENGINE="$ORIGIN/../../elypso-engine/Engine"
+ENGINE_LIB="$ORIGIN/../../elypso-engine/Engine library/build-release/libElypso engine.a"
+EXTERNAL_SHARED="$ORIGIN/../../elypso-engine/_external_shared"
+INCLUDE="$ORIGIN/../../elypso-engine/Engine/include"
+RELEASE_ENGINE="$ORIGIN/../../elypso-engine/Engine/build-release"
+RELEASE_HUB="$ORIGIN/../../elypso-hub/build-release"
+SOURCE_GAME="$ORIGIN/../../elypso-engine/Game"
 
 # Individual files
-LINUX_PREREQUISITES_TXT="$ORIGIN/../../Elypso-engine/Linux_prerequisites.txt"
-README="$ORIGIN/../../Elypso-engine/README.md"
-LICENSE="$ORIGIN/../../Elypso-engine/LICENSE.md"
-LIBRARIES="$ORIGIN/../../Elypso-engine/LIBRARIES.md"
-SECURITY="$ORIGIN/../../Elypso-engine/SECURITY.md"
-CHANGES="$ORIGIN/../../Elypso-engine/CHANGES.txt"
+LINUX_PREREQUISITES_TXT="$ORIGIN/../../elypso-engine/Linux_prerequisites.txt"
+README="$ORIGIN/../../elypso-engine/README.md"
+LICENSE="$ORIGIN/../../elypso-engine/LICENSE.md"
+LIBRARIES="$ORIGIN/../../elypso-engine/LIBRARIES.md"
+SECURITY="$ORIGIN/../../elypso-engine/SECURITY.md"
+CHANGES="$ORIGIN/../../elypso-engine/CHANGES.txt"
 
 # Check if assigned paths/folders exist
 check_exists() {

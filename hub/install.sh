@@ -16,8 +16,8 @@ INPUT="Elypso-hub-x64-release-linux"
 OUTPUT="Elypso-hub-x64-release-linux.tar.gz"
 
 # Assigned paths
-RELEASE_HUB="$ORIGIN/../../Elypso-hub/out/build/x64-release"
-CHANGES="$ORIGIN/../../Elypso-hub/CHANGES.txt"
+RELEASE_HUB="$ORIGIN/../../elypso-hub/build-release"
+CHANGES="$ORIGIN/../../elypso-hub/CHANGES.txt"
 
 # Check if assigned paths/folders exist
 check_exists() {

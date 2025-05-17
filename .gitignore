@@ -2,9 +2,8 @@
 
 engine/Elypso-engine-x64-release-windows
 engine/Elypso-engine-x64-release-windows.7z
-
-compiler/Elypso-compiler-x64-release-windows
-compiler/Elypso-compiler-x64-release-windows.7z
+engine/Elypso-engine-x64-release-linux.tar.gz
 
 hub/Elypso-hub-x64-release-windows
 hub/Elypso-hub-x64-release-windows.7z
+hub/Elypso-hub-x64-release-linux.tar.gz
