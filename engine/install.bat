@@ -16,11 +16,11 @@ set "output=Elypso-engine-x64-release-windows.7z"
 
 :: Assigned paths
 set "engine=%origin%\..\..\Elypso-engine\Engine"
-set "engine_lib=%engine%\..\Engine library\out\build\x64-release\Elypso engine.lib"
+set "engine_lib=%engine%\..\Engine library\build-release\Elypso engine.lib"
 set "external_shared=%engine%\..\_external_shared"
 set "include=%engine%\include"
-set "release_engine=%engine%\out\build\x64-release"
-set "release_hub=%origin%\..\..\Elypso-hub\out\build\x64-release"
+set "release_engine=%engine%\build-release"
+set "release_hub=%origin%\..\..\Elypso-hub\build-release"
 set "source_game=%origin%\..\..\Elypso-engine\Game"
 
 :: Individual files
@@ -290,6 +290,12 @@ if exist "CPackConfig.cmake" (
 if exist "CPackSourceConfig.cmake" (
 	del /f /q "CPackSourceConfig.cmake"
 )
+if exist "libKalaCrashHandler.so" (
+	del /f /q "libKalaCrashHandler.so"
+)
+if exist "libKalaPhysics.so" (
+	del /f /q "libKalaPhysics.so"
+)
 echo Cleaned up 'Hub'.
 
 echo.
@@ -303,8 +309,11 @@ xcopy "%source_game%" ".\" /E /I /Y >nul
 echo Copied game source files to 'Game'.
 
 :: Delete useless files from Game folder
-if exist "out" (
-	rmdir /s /q "out"
+if exist ".vs" (
+	rmdir /s /q ".vs"
+)
+if exist "build-debug" (
+	rmdir /s /q "build-debug"
 )
 if exist "Elypso engine.lib" (
 	del /f /q "Elypso engine.lib"

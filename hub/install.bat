@@ -15,7 +15,7 @@ set "input=Elypso-hub-x64-release-windows"
 set "output=Elypso-hub-x64-release-windows.7z"
 
 :: Assigned paths
-set "release_hub=%origin%\..\..\Elypso-hub\out\build\x64-release"
+set "release_hub=%origin%\..\..\Elypso-hub\build-release"
 set "changes=%origin%\..\..\Elypso-hub\CHANGES.txt"
 
 :: Resolve paths before checking if they are valid
